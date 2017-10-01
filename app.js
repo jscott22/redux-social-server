@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const router = require('./router');
+const router = require('./routes');
 
 mongoose.Promise = global.Promise;
 if(process.env.NODE_ENV !== 'test') {

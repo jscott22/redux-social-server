@@ -1,7 +1,6 @@
-const User = require('../models/user');
+const User = require('../models/UserModel');
 
 exports.signIn = async (req, res, next) => {
-    console.log(req.user);
     if(req.user) {
         res.status(200).send({user: req.user});
     } else {

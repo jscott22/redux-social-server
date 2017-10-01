@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const faker = require('faker');
-const User = require('../models/user');
-const Post = require('../models/post');
+const User = require('../models/UserModel');
+const Post = require('../models/PostModel');
 
 mongoose.Promise = global.Promise;
 if(process.env.NODE_ENV !== 'test') {
