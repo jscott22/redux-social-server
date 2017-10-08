@@ -6,10 +6,10 @@ const PostSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'user'
     },
-    postedOn: Date,
+    postedOn: {type: Date, required: true},
     picture: String,
     title: {type: String, required: true},
-    content: {type: String},
+    content: {type: String, required: true},
     tags: [String],
     likes: [{
         type: Schema.Types.ObjectId,

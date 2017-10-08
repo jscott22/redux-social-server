@@ -44,3 +44,23 @@ exports.unlike = async (req, res, next) => {
         console.warn(error);
     }
 };
+
+exports.create = async(req, res, next) => {
+    const user = req.session.user;
+    if(!user) res.send(400);
+    try {
+        const {title, content, tags, imageURL} = req.body;
+        const post = new Post({
+            author: user,
+            postedOn: new Date(),
+            title,
+            content,
+            picture: imageURL || '',
+            tags
+        });
+        await post.save();
+        res.status(200).send({message: 'Post successful'});
+    } catch(error) {
+        res.status(422).send({error: 'Invalid post'});
+    }
+};

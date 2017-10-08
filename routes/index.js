@@ -1,9 +1,6 @@
-const authRoutes = require('./authRoutes');
-const postRoutes = require('./postRoutes');
-const feedRoutes = require('./feedRoutes');
-
 module.exports = (app) => {
-    authRoutes(app);
-    feedRoutes(app);
-    postRoutes(app);
+    require('./authRoutes')(app);
+    require('./postRoutes')(app);
+    require('./feedRoutes')(app);
+    require('./userRoutes')(app);
 };

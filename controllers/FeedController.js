@@ -12,6 +12,7 @@ exports.fetch = async (req, res, next) => {
             mode: 'user',
             select: ['firstName', 'lastName', 'avatar']
             }
-        ]);
+        ])
+        .sort({postedOn: -1});
     res.send(posts);
 };

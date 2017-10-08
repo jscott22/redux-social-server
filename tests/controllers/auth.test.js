@@ -6,11 +6,6 @@ const mongoose = require('mongoose');
 
 beforeAll(async() => {
     await mongoose.connect('mongodb://localhost/redux_social_test', {useMongoClient: true});
-    // mongoose.connection
-    //     .once('open', () => done())
-    //     .on('error', err => {
-    //         console.warn('Warning ', err)
-    //     });
 });
 
 beforeEach(async () => {
