@@ -1,7 +1,29 @@
 const User = require('../models/UserModel');
 const Post = require('../models/PostModel');
 
-exports.like = async (req, res, next) => {
+exports.fetchAll = async (req, res) => {
+    if (!req.session.user) return res.status(402).send({message: "You are not authorized to fetch posts."});
+    try {
+        const posts = await Post
+            .find({})
+            .populate([{
+                path: 'author',
+                model: 'user',
+                select: ['firstName', 'lastName', 'avatar']
+            }, {
+                path: 'likes',
+                mode: 'user',
+                select: ['firstName', 'lastName', 'avatar']
+            }
+            ])
+            .sort({postedOn: -1});
+        res.status(200).send({posts});
+    } catch (error) {
+        res.status(422).send({message: "There was an error with your request."});
+    }
+};
+
+exports.like = async (req, res) => {
     const user = req.session.user;
     if(!user) res.send(400);
     const {postId} = req.body;
@@ -19,11 +41,11 @@ exports.like = async (req, res, next) => {
             });
         res.status(200).send(post.likes);
     } catch (error) {
-        console.warn(error);
+        res.status(422).send({message: "There was an error with your request."});
     }
 };
 
-exports.unlike = async (req, res, next) => {
+exports.unlike = async (req, res) => {
     const user = req.session.user;
     if (!user) res.send(400);
     const {postId} = req.body;
@@ -41,11 +63,11 @@ exports.unlike = async (req, res, next) => {
             });
         res.status(200).send(post.likes);
     } catch(error) {
-        console.warn(error);
+        res.status(422).send({message: "There was an error with your request."});
     }
 };
 
-exports.create = async(req, res, next) => {
+exports.create = async(req, res) => {
     const user = req.session.user;
     if(!user) res.send(400);
     try {
@@ -58,9 +80,33 @@ exports.create = async(req, res, next) => {
             picture: imageURL || '',
             tags
         });
-        await post.save();
-        res.status(200).send({message: 'Post successful'});
+        const savedPost = await post.save();
+        res.status(200).send(savedPost);
     } catch(error) {
-        res.status(422).send({error: 'Invalid post'});
+        res.status(422).send({message: 'There was an error creating your post.'});
+    }
+};
+
+exports.delete = async (req, res) => {
+
+    const { _id: userId, isAdmin} = req.session.user;
+
+    if (!req.body || !req.body.postId) return res
+        .status(422)
+        .send({message: "Delete request must contain a post ID."});
+
+    try {
+        const postToRemove = await Post.findById(req.body.postId);
+        const isAuthor = (userId.toString() === postToRemove.author.toString());
+
+        if (!isAdmin && !isAuthor) return res
+            .status(402)
+            .send({message: "You are not authorized to delete this post."});
+
+        const removedPost = await postToRemove.remove();
+
+        res.status(200).send({removedPost});
+    } catch (error) {
+        res.status(500).send({message: "There was an error deleting the post."});
     }
 };

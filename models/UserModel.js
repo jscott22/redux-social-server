@@ -8,7 +8,8 @@ const UserSchema = new Schema({
     lastName: {type: String, required: true},
     password: String,
     googleId: String,
-    avatar: String
+    avatar: String,
+    isAdmin: Boolean
 });
 
 UserSchema.pre('save', function (next) {
