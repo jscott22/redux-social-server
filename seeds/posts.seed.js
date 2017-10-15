@@ -19,7 +19,7 @@ const pickAuthor = (users) => {
 };
 
 const seedLikes = (users) => {
-    const likeCount = Math.floor(Math.random() * (maxLikes - minLikes)) + minLikes;
+    const likeCount = Math.floor(Math.random() * (maxLikes - minLikes));
     let likes = [];
     while(likes.length < likeCount) {
         let random = Math.floor(Math.random() * users.length);

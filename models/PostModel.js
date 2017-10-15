@@ -13,8 +13,7 @@ const PostSchema = new Schema({
     tags: [String],
     likes: [{
         type: Schema.Types.ObjectId,
-        ref: 'user',
-        unique: true
+        ref: 'user'
     }],
     comments: [{
        type: Schema.Types.ObjectId,
