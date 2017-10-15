@@ -61,6 +61,7 @@ exports.google = async (req, res) => {
 };
 
 exports.verify = async (req, res) => {
+    console.log(req.session);
     if(req.session.user) {
         res.status(200).send({user: req.session.user});
     } else {
