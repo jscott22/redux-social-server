@@ -25,7 +25,7 @@ const sess = {
     secret: process.env.SESSION_SECRET,
     cookie: {
         maxAge: 30 * 24 * 60 * 60 * 1000,
-        secure: false
+        secure: process.env.NODE_ENV === 'production'
     },
     saveUninitialized: true,
     resave: false,

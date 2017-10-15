@@ -1,5 +1,4 @@
 const User = require('../models/UserModel');
-
 const ROOT_URL =  process.env.CLIENT_ROOT_URL;
 
 exports.signIn = async (req, res) => {
@@ -58,7 +57,7 @@ exports.signOut = async (req, res) => {
 
 exports.google = async (req, res) => {
     req.session.user = req.user;
-    res.status(200).redirect(`${ROOT_URL}/feed`);
+    res.status(200).redirect(`${ROOT_URL}feed`);
 };
 
 exports.verify = async (req, res) => {
