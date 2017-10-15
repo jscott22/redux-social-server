@@ -10,17 +10,14 @@ const router = require('./routes');
 
 mongoose.Promise = global.Promise;
 
-
-
 if(process.env.NODE_ENV !== 'test') {
-    mongoURL = process.env.MONGO_URI || "mongodb://localhost/redux_social";
-    mongoose.connect(mongoURL, {useMongoClient: true});
+    mongoose.connect(process.env.MONGO_URI, {useMongoClient: true});
 }
 
 const app = express();
 
 const sess = {
-    secret: process.env.SESSION_SECRET || "oscar-pug",
+    secret: process.env.SESSION_SECRET,
     cookie: {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         secure: false
@@ -36,7 +33,7 @@ app.use(passport.session());
 
 app.use(morgan('combined'));
 app.use(cors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    origin: process.env.CORS_ORIGIN,
     credentials: true
 }));
 app.use(bodyParser.json());
