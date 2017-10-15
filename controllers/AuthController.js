@@ -1,7 +1,6 @@
 const User = require('../models/UserModel');
-const config = require('../config');
 
-const ROOT_URL =  process.env.CLIENT_ROOT_URL || config.URL.LOCAL_ROOT;
+const ROOT_URL =  process.env.CLIENT_ROOT_URL;
 
 exports.signIn = async (req, res) => {
     if(req.user) {

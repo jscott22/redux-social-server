@@ -1,6 +1,5 @@
 const passport = require('passport');
 const User = require('../models/UserModel');
-const config = require('../config');
 const LocalStrategy = require('passport-local');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
@@ -18,8 +17,8 @@ const localOptions = {
 };
 
 const googleOptions = {
-    clientID: config.oAuth.GOOGLE_CLIENT,
-    clientSecret: config.oAuth.GOOGLE_SECRET,
+    clientID: process.env.GOOGLE_CLIENT,
+    clientSecret: process.env.GOOGLE_SECRET,
     callbackURL: '/auth/google/callback',
 };
 
