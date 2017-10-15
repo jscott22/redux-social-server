@@ -4,8 +4,9 @@ const User = require('../models/UserModel');
 const Post = require('../models/PostModel');
 
 mongoose.Promise = global.Promise;
+
 if(process.env.NODE_ENV !== 'test') {
-    mongoose.connect('mongodb://localhost/redux_social', {useMongoClient: true});
+    mongoose.connect(process.env.MONGO_URI, {useMongoClient: true});
 }
 
 const seedSize = 20;
