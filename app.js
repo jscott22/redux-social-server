@@ -37,10 +37,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(morgan('combined'));
-app.use(cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials: true
-}));
+app.use(cors());
 app.use(bodyParser.json());
 router(app);
 
