@@ -1,9 +1,9 @@
 const User = require('../models/UserModel');
 const config = require('../config');
 
-const ROOT_URL = process.env.NODE_ENV === 'development' ? config.URL.LOCAL_ROOT : config.URL.S3_ROOT;
+const ROOT_URL =  process.env.CLIENT_ROOT_URL || config.URL.LOCAL_ROOT;
 
-exports.signIn = async (req, res, next) => {
+exports.signIn = async (req, res) => {
     if(req.user) {
         res.status(200).send({user: req.user});
     } else {
@@ -47,7 +47,7 @@ exports.signUp = async (req, res, next) => {
     }
 };
 
-exports.signOut = async (req, res, next) => {
+exports.signOut = async (req, res) => {
     try {
         req.session.destroy();
         req.logout();
@@ -57,12 +57,12 @@ exports.signOut = async (req, res, next) => {
     }
 };
 
-exports.google = async (req, res, next) => {
+exports.google = async (req, res) => {
     req.session.user = req.user;
     res.status(200).redirect(`${ROOT_URL}/feed`);
 };
 
-exports.verify = async (req, res, next) => {
+exports.verify = async (req, res) => {
     if(req.session.user) {
         res.status(200).send({user: req.session.user});
     } else {

@@ -10,17 +10,17 @@ const router = require('./routes');
 
 mongoose.Promise = global.Promise;
 
-switch(process.env.NODE_ENV) {
-    case 'development':
-        return mongoose.connect('mongodb://localhost/redux_social', {useMongoClient: true});
-    case 'production':
-        return mongoose.connect('mongodb://admin:oscarmac22@cluster0-shard-00-00-nygw0.mongodb.net:27017,cluster0-shard-00-01-nygw0.mongodb.net:27017,cluster0-shard-00-02-nygw0.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin', {useMongoClient: true});
+
+
+if(process.env.NODE_ENV !== 'test') {
+    mongoURL = process.env.MONGO_URI || "mongodb://localhost/redux_social";
+    mongoose.connect(mongoURL, {useMongoClient: true});
 }
 
 const app = express();
 
 const sess = {
-    secret: "oscar-pug",
+    secret: process.env.SESSION_SECRET || "oscar-pug",
     cookie: {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         secure: false
@@ -35,9 +35,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(morgan('combined'));
-//TODO: Limit cors
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
     credentials: true
 }));
 app.use(bodyParser.json());
