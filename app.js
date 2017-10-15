@@ -10,9 +10,14 @@ const router = require('./routes');
 
 mongoose.Promise = global.Promise;
 
-if(process.env.NODE_ENV !== 'test') {
-    mongoose.connect(process.env.MONGO_URI, {useMongoClient: true});
+try {
+    if(process.env.NODE_ENV !== 'test') {
+        mongoose.connect(process.env.MONGO_URI, {useMongoClient: true});
+    }
+} catch (error) {
+    console.warn(error);
 }
+
 
 const app = express();
 
