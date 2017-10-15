@@ -2,6 +2,7 @@ const User = require('../models/UserModel');
 const Post = require('../models/PostModel');
 
 exports.fetch = async (req, res) => {
+    console.log(req.session);
     if (!req.session.user) return res.status(402).send({message: "You are not authorized to fetch posts."});
     let userId;
     if(req.query && req.query.userId) userId = req.query.userId;
