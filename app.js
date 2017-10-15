@@ -9,8 +9,12 @@ const cors = require('cors');
 const router = require('./routes');
 
 mongoose.Promise = global.Promise;
-if(process.env.NODE_ENV !== 'test') {
-    mongoose.connect('mongodb://localhost/redux_social', {useMongoClient: true});
+
+switch(process.env.NODE_ENV) {
+    case 'development':
+        return mongoose.connect('mongodb://localhost/redux_social', {useMongoClient: true});
+    case 'production':
+        return mongoose.connect('mongodb://admin:oscarmac22@cluster0-shard-00-00-nygw0.mongodb.net:27017,cluster0-shard-00-01-nygw0.mongodb.net:27017,cluster0-shard-00-02-nygw0.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin', {useMongoClient: true});
 }
 
 const app = express();

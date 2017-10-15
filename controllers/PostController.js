@@ -1,11 +1,15 @@
 const User = require('../models/UserModel');
 const Post = require('../models/PostModel');
 
-exports.fetchAll = async (req, res) => {
+exports.fetch = async (req, res) => {
     if (!req.session.user) return res.status(402).send({message: "You are not authorized to fetch posts."});
+    let userId;
+    if(req.query && req.query.userId) userId = req.query.userId;
+    const query = userId ? {author: userId} : {};
+    console.log(query);
     try {
         const posts = await Post
-            .find({})
+            .find(query)
             .populate([{
                 path: 'author',
                 model: 'user',
@@ -21,6 +25,28 @@ exports.fetchAll = async (req, res) => {
     } catch (error) {
         res.status(422).send({message: "There was an error with your request."});
     }
+};
+
+exports.byUser = async (req, res) => {
+  if (!req.session.user) return res.status(402).send({message: "You are not authorized to fetch posts."});
+
+  if (!req.body || !req.body.userId) return res.status(422).send({message: "You must include a user ID."});
+
+  const userId = req.body.userId;
+
+  try {
+      const userPosts = await Post
+            .find({author: userId})
+            .populate({
+                path: 'author',
+                model: 'user',
+                select: ['firstName', 'lastName', 'avatar']
+            })
+            .sort({postedOn: -1});
+      res.status(200).send({userPosts});
+  } catch(error) {
+      res.status(500).send({message: "Something went wrong fetching the user's posts."});
+  }
 };
 
 exports.like = async (req, res) => {
