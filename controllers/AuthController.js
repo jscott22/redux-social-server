@@ -5,7 +5,7 @@ exports.signIn = async (req, res) => {
     console.log(req.user);
     console.log(req.session);
     if(req.user) {
-        res.status(200).send({user: req.user});
+        res.status(200).redirect(`${ROOT_URL}`);
     } else {
         res.status(422).send({user: null});
     }
@@ -62,6 +62,7 @@ exports.google = async (req, res) => {
 };
 
 exports.verify = async (req, res) => {
+    console.log(req.session);
     if(req.user) {
         res.status(200).send({user: req.user});
     } else {
