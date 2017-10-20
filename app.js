@@ -25,10 +25,11 @@ const sess = {
     secret: process.env.SESSION_SECRET,
     cookie: {
         maxAge: 30 * 24 * 60 * 60 * 1000,
+        httpOnly: false,
         secure: false
     },
     saveUninitialized: false,
-    resave: false,
+    resave: true,
     store: new MongoStore({mongooseConnection: mongoose.connection})
 };
 
