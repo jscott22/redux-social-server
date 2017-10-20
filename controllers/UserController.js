@@ -16,6 +16,10 @@ exports.profile = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
+
+    console.log(req.session);
+    console.log(req.session.user);
+
     if(!req.session || !req.session.user || !req.session.user.isAdmin) {
         return res.status(400).send({message: 'Only an admin can perform this action'});
     }
