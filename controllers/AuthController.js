@@ -5,7 +5,7 @@ exports.signIn = async (req, res) => {
     console.log(req.user);
     console.log(req.session);
     if(req.user) {
-        res.send(200);
+        res.status(200).send({user: req.user});
     } else {
         res.status(422).send({user: null});
     }

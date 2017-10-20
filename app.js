@@ -41,6 +41,10 @@ app.use(cors({
     origin: process.env.CORS_ORIGIN,
     credentials: true
 }));
+app.options('*', cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true
+}));
 app.use(bodyParser.json());
 router(app);
 
