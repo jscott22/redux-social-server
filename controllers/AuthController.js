@@ -5,7 +5,7 @@ exports.signIn = async (req, res) => {
     console.log(req.user);
     console.log(req.session);
     if(req.user) {
-        res.status(200).redirect(`${ROOT_URL}`);
+        res.send(200);
     } else {
         res.status(422).send({user: null});
     }
