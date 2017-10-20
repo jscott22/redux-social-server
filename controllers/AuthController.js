@@ -2,6 +2,8 @@ const User = require('../models/UserModel');
 const ROOT_URL =  process.env.CLIENT_ROOT_URL;
 
 exports.signIn = async (req, res) => {
+    console.log(req.user);
+    console.log(req.session);
     if(req.user) {
         res.status(200).send({user: req.user});
     } else {
