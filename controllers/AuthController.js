@@ -58,14 +58,12 @@ exports.signOut = async (req, res) => {
 };
 
 exports.google = async (req, res) => {
-    req.session.user = req.user;
     res.status(200).redirect(`${ROOT_URL}feed`);
 };
 
 exports.verify = async (req, res) => {
-    console.log(req.session);
-    if(req.session.user) {
-        res.status(200).send({user: req.session.user});
+    if(req.user) {
+        res.status(200).send({user: req.user});
     } else {
         res.status(200).send({user: null});
     }

@@ -2,8 +2,7 @@ const User = require('../models/UserModel');
 const Post = require('../models/PostModel');
 
 exports.fetch = async (req, res) => {
-    console.log(req.session);
-    if (!req.session.user) return res.status(402).send({message: "You are not authorized to fetch posts."});
+    if (!req.user) return res.status(402).send({message: "You are not authorized to fetch posts."});
     let userId;
     if(req.query && req.query.userId) userId = req.query.userId;
     const query = userId ? {author: userId} : {};
@@ -29,7 +28,7 @@ exports.fetch = async (req, res) => {
 };
 
 exports.byUser = async (req, res) => {
-  if (!req.session.user) return res.status(402).send({message: "You are not authorized to fetch posts."});
+  if (!req.user) return res.status(402).send({message: "You are not authorized to fetch posts."});
 
   if (!req.body || !req.body.userId) return res.status(422).send({message: "You must include a user ID."});
 
@@ -51,7 +50,7 @@ exports.byUser = async (req, res) => {
 };
 
 exports.like = async (req, res) => {
-    const user = req.session.user;
+    const user = req.user;
     if(!user) res.send(400);
     const {postId} = req.body;
 
@@ -73,7 +72,7 @@ exports.like = async (req, res) => {
 };
 
 exports.unlike = async (req, res) => {
-    const user = req.session.user;
+    const user = req.user;
     if (!user) res.send(400);
     const {postId} = req.body;
 
@@ -95,7 +94,7 @@ exports.unlike = async (req, res) => {
 };
 
 exports.create = async(req, res) => {
-    const user = req.session.user;
+    const user = req.user;
     if(!user) res.send(400);
     try {
         const {title, content, tags, imageURL} = req.body;
@@ -116,7 +115,7 @@ exports.create = async(req, res) => {
 
 exports.delete = async (req, res) => {
 
-    const { _id: userId, isAdmin} = req.session.user;
+    const { _id: userId, isAdmin} = req.user;
 
     if (!req.body || !req.body.postId) return res
         .status(422)

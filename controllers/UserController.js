@@ -2,7 +2,7 @@ const UserModel = require('../models/UserModel');
 const PostModel = require('../models/PostModel');
 
 exports.profile = async (req, res) => {
-  if(!req.session.user) res.status(500).send({error: 'Unauthorized'});
+  if(!req.user) res.status(500).send({error: 'Unauthorized'});
   if(!req.query.userId) res.status(422).send({error: 'Request must include a user ID'});
 
   const userId = req.query.userId;
@@ -17,10 +17,7 @@ exports.profile = async (req, res) => {
 
 exports.delete = async (req, res) => {
 
-    console.log(req.session);
-    console.log(req.session.user);
-
-    if(!req.session || !req.session.user || !req.session.user.isAdmin) {
+    if(!req.session || !req.user || !req.user.isAdmin) {
         return res.status(400).send({message: 'Only an admin can perform this action'});
     }
 
@@ -37,7 +34,7 @@ exports.delete = async (req, res) => {
 };
 
 exports.promote = async (req, res) => {
-    if(!req.session || !req.session.user || !req.session.user.isAdmin) {
+    if(!req.session || !req.user || !req.user.isAdmin) {
         return res.status(400).send({message: 'Only an admin can perform this action'});
     }
 
